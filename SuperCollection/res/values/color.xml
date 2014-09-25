@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <color android:id="@+id/color_bg" name="bg_color" android:layout_width="wrap_content" android:layout_height="wrap_content">#f2f2f2</color>
+    <color android:id="@+id/color_line" name="line_color" android:layout_width="wrap_content" android:layout_height="wrap_content">#dddddd</color>
+    <color android:id="@+id/color_white" name="white_color" android:layout_width="wrap_content" android:layout_height="wrap_content">#ffffff</color>
+    <color android:id="@+id/color_login_text" name="login_text_color" android:layout_width="wrap_content" android:layout_height="wrap_content">#666666</color>
+    <color name="title_bg_color">#1192CB</color>
+    <color name="white_text_color">#FFF0F0F0</color>
+	<color name="gray_hint_text_color">#CCCCCC</color>
+	<color name="item_selected_gray">#EFF2F3</color>
+	<color name="list_text_blue">#63B8F0</color>
+	<color name="price_yellow">#FD8612</color>
+	 <color name="gold">#b89766</color>
+    <color name="select">#98aacc</color>
+</resources>

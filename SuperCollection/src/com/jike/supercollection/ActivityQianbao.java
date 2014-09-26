@@ -224,12 +224,12 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 		String amoutString=shoukuanjine_et.getText().toString().trim();
 		if(!amoutString.isEmpty()){
 			double shouxufei=(rate*Double.valueOf(amoutString));
-			if (shouxufei<0.01) {
+			if (0<shouxufei&&shouxufei<0.01) {
 				shouxufei=0.01;
 			}
 			realamount=((Double.valueOf(amoutString))-shouxufei);
-			shouxufei_tv.setText("(手续费￥"+String.format("%.2d",shouxufei)+")");
-			shijidaozhangjine_tv.setText("￥"+String.format("%.2d",realamount));
+			shouxufei_tv.setText("(手续费￥"+String.format("%.2f",shouxufei)+")");
+			shijidaozhangjine_tv.setText("￥"+String.format("%.2f",realamount));
 		}
 		else{
 			shijidaozhangjine_tv.setText("");

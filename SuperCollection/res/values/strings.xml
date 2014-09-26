@@ -4,7 +4,7 @@
     <string name="formal_server_url">http://gatewayceshi.51jp.cn/gateway</string>
     <string name="test_server_url">http://gatewayceshi.51jp.cn/gateway</string>
     <string name="formal_pay_server_url">http://serverstest.51jp.cn/qianbao/default?orderID=%1$s&amp;amount=%2$s&amp;userid=%3$s&amp;paysystype=%4$s&amp;siteid=%5$s&amp;sign=%6$s</string>
-    <string name="test_pay_server_url">http://serverstest.51jp.cn/qianbao/default?amount=%1$s&amp;time=%2$s&amp;realamount=%3$s&amp;userid=%4$s&amp;siteid=%5$s&amp;sign=%6$s&amp;</string>
+    <string name="test_pay_server_url">http://serverstest.51jp.cn/qianbao/default?amount=%1$s&amp;time=%2$s&amp;realamount=%3$s&amp;userid=%4$s&amp;siteid=%5$s&amp;sign=%6$s</string>
     <string name="app_name">SuperCollection</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

@@ -63,6 +63,16 @@ public class ActivityLogin extends Activity {
 		autologin_rl.setOnClickListener(autologinClickListener);
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (sp.getBoolean(SPkeys.loginState.getString(), false)) {
+//			startActivity(new Intent(context,ActivityQianbao.class));
+			finish();
+			return;
+		}
+	}
+
 	View.OnClickListener loginClickListener =new OnClickListener() {
 		public void onClick(View v) {
 			if (uername_input_et.getText().toString().trim().length() == 0) {
@@ -153,6 +163,7 @@ public class ActivityLogin extends Activity {
 						sp.edit().putBoolean(SPkeys.loginState.getString(), true)
 								.commit();
 						startActivity(new Intent(context,ActivityQianbao.class));
+						ActivityLogin.this.finish();
 					} else {
 						String message = jsonObject.getString("msg");
 						new AlertDialog.Builder(context).setTitle("µÇÂ¼Ê§°Ü")

@@ -31,11 +31,33 @@
             android:text="商旅钱包"
             android:textColor="@color/white_text_color"
             android:textSize="22sp" />
+
+        <LinearLayout
+            android:id="@+id/user_ll"
+            android:layout_width="70dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/user_imgbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/slqb_user_white_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的账户"
+                android:textColor="@color/white_text_color"
+                android:textSize="12sp" />
+        </LinearLayout>
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -109,7 +131,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="12300"
-                        android:textColor="@android:color/background_dark"
+                        android:textColor="@color/price_yellow"
                         android:textSize="@dimen/content_text_size" />
                 </LinearLayout>
 
@@ -136,10 +158,11 @@
                         android:layout_width="fill_parent"
                         android:layout_height="40dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="100dp"
+                        android:layout_marginLeft="90dp"
                         android:background="@null"
                         android:hint="请输入收款金额"
                         android:inputType="numberDecimal"
+                        android:maxLength="5"
                         android:paddingLeft="20dp"
                         android:singleLine="true" />
                 </RelativeLayout>
@@ -308,7 +331,7 @@
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:background="@color/white_color"
                     android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
@@ -319,7 +342,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="实际到账金额"
+                        android:text="到账金额"
                         android:textColor="@color/login_text_color"
                         android:textSize="@dimen/content_text_size" />
 
@@ -328,22 +351,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="120dp"
-                        android:text="￥1234"
-                        android:textColor="@color/login_text_color"
-                        android:textSize="@dimen/content_text_size" />
-
-                    <TextView
-                        android:id="@+id/shouxufei_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/shijidaozhangjine_tv"
-                        android:text="(手续费3元)"
-                        android:textColor="@color/gray_hint_text_color"
+                        android:layout_marginLeft="110dp"
+                        android:text=""
+                        android:textColor="@color/price_yellow"
                         android:textSize="@dimen/content_text_size" />
                 </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/shouxufei_tv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/white_color"
+                    android:paddingLeft="120dp"
+                    android:text=""
+                    android:textColor="@color/gray_hint_text_color"
+                    android:textSize="@dimen/content_text_size" />
 
                 <Button
                     android:id="@+id/ok_button"
@@ -368,23 +390,31 @@
                     android:textColor="@color/gray_hint_text_color"
                     android:textSize="15sp" />
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/jiaoyijilu_block_ll"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical"
-                android:visibility="gone" >
-
-                <com.jike.supercollection.RefreshListView
-                    android:id="@+id/listview"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_centerVertical="true"
-                     />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/jiaoyijilu_block_ll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <com.jike.supercollection.RefreshListView
+            android:id="@+id/listview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:cacheColorHint="@color/transparent" />
+
+        <ListView
+            android:id="@+id/listview1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:cacheColorHint="@color/transparent"
+            android:visibility="gone" />
+    </LinearLayout>
 
 </LinearLayout>

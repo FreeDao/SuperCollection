@@ -13,4 +13,8 @@
 	<color name="price_yellow">#FD8612</color>
 	 <color name="gold">#b89766</color>
     <color name="select">#98aacc</color>
+    <color name="red">#ff0000</color>
+    <color name="green">#00ff00</color>
+    <color name="blue">#0000ff</color>
+     <color name="transparent">#00000000</color>
 </resources>

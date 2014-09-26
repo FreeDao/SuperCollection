@@ -42,6 +42,24 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             >
         </activity>
+        <activity
+            android:name=".ActivityRecordState"
+            android:screenOrientation="portrait" 
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            >
+        </activity>
+        <activity
+            android:name=".ActivityMyAccout"
+            android:screenOrientation="portrait" 
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            >
+        </activity>
+         <activity
+            android:name=".ActivityOrderDetail"
+            android:screenOrientation="portrait" 
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            >
+        </activity>
     </application>
 
 </manifest>

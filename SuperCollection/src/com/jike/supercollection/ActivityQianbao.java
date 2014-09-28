@@ -12,9 +12,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import com.jike.supercollection.update.UpdateManager;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
@@ -66,6 +70,7 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 	private String recordReturnJson="";
 	private ArrayList<Record> records_list;
 	ListAdapter adapter;
+	Boolean isTimeout=true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +147,9 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 					setShouxufei();
 			}
 		});
+		
+		UpdateManager manager=new UpdateManager(ActivityQianbao.this,"shanglvqianbao");
+		manager.checkForUpdates();
 	}
 	
 	OnClickListener clickListener=new OnClickListener() {
@@ -238,6 +246,9 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 	}
 	
 	private void startQueryRecord() {
+		if (HttpUtils.showNetCannotUse(context)) {
+			return;
+		}
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -255,6 +266,7 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 				Message msg = new Message();
 				msg.what = 1;
 				handler.sendMessage(msg);
+				handler.sendEmptyMessageDelayed(2, 5000);
 			}
 		}).start();
 
@@ -273,7 +285,15 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
+			case 2:
+				if(isTimeout){
+					new AlertDialog.Builder(context).setTitle("请求超时，请稍后再试！")
+					.setPositiveButton("确认", null).show();
+					progressdialog.dismiss();
+				}
+				break;
 			case 1:
+				isTimeout=false;
 				JSONTokener jsonParser;
 				jsonParser = new JSONTokener(recordReturnJson);
 				try {
@@ -558,4 +578,6 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 			}
 			return super.onKeyDown(keyCode, event);
 		}
+		
+	
 }

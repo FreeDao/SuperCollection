@@ -50,19 +50,19 @@ public class ActivityRecordState extends Activity {
 		}
 		String state=record.getS();
 		if (state.equals(StateEnum.neworder.getString())) {
-			time1_tv.setText("预计 "+record.getSt().replace("null", ""));
-			time1_name_tv.setText("到账");
-			time2_tv.setText(record.getPt().replace("null", ""));
-			time2_name_tv.setText("付款成功");
+			time1_tv.setText("");
+			time1_name_tv.setText("");
+			time2_tv.setText("");
+			time2_name_tv.setText("");
 			time3_tv.setText(record.getCt().replace("null", ""));
 			time3_name_tv.setText("创单");
 		}else if (state.equals(StateEnum.yishoukuan.getString())) {
 			time1_tv.setText("预计 "+record.getSt().replace("null", ""));
 			time1_name_tv.setText("到账");
-			time2_tv.setText(record.getRst().replace("null", ""));
+			time2_tv.setText(record.getPt().replace("null", ""));
 			time2_name_tv.setText("已收款");
-			time3_tv.setText(record.getPt());
-			time3_name_tv.setText("付款成功");
+			time3_tv.setText(record.getCt());
+			time3_name_tv.setText("创单");
 		}
 		else if (state.equals(StateEnum.ruzhangzhong.getString())) {
 			time1_tv.setText("预计 "+record.getSt().replace("null", ""));

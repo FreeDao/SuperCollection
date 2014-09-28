@@ -37,6 +37,7 @@ public class ActivityLogin extends Activity {
 	private SharedPreferences sp;
 	private String loginReturnJson;// 登录验证后返回的结果数据
 	private CustomProgressDialog progressdialog;
+	private Boolean isTimeout=true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +112,7 @@ public class ActivityLogin extends Activity {
 					Message msg = new Message();
 					msg.what = 1;
 					handler.sendMessage(msg);
+					handler.sendEmptyMessageDelayed(2, 3000);
 				}
 			}).start();
 			progressdialog = CustomProgressDialog.createDialog(context);
@@ -132,13 +134,19 @@ public class ActivityLogin extends Activity {
 		}
 	};
 
-	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
+			case 2:
+				if(isTimeout){
+					new AlertDialog.Builder(context).setTitle("请求超时，请稍后再试！")
+					.setPositiveButton("确认", null).show();
+					progressdialog.dismiss();
+				}
+				break;
 			case 1:// 获取登录返回的数据
-
+				isTimeout=false;
 				JSONTokener jsonParser;
 				jsonParser = new JSONTokener(loginReturnJson);
 				try {

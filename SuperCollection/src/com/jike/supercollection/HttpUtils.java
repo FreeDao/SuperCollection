@@ -37,7 +37,8 @@ public class HttpUtils {
 			Log.v("URL：",url.toString());
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			// 设置超时时间
-			conn.setConnectTimeout(10000);
+			conn.setConnectTimeout(2000);
+			conn.setReadTimeout(2000);
 			// 设置请求方式
 			conn.setRequestMethod("GET");
 			// 设置属性

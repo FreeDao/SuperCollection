@@ -15,7 +15,7 @@ public class MyApp {
 	HashMap<String,Object> menghang_hm=new HashMap<String,Object>();
 	HashMap<String,Object> menghang_b_hm=new HashMap<String,Object>();
 	
-//	HashMap的使用
+//	HashMap的使用		正式接口测试账号 wzxiang06  898989
 //	put(K key, V value) 
 //	hm.put(a,b); //插入值为b,key值为a
 //	hm.get(key); //返回值为value
@@ -54,5 +54,12 @@ public class MyApp {
 		if(RELEASE)
 			return context.getResources().getString(R.string.formal_pay_server_url);
 		else return context.getResources().getString(R.string.test_pay_server_url);
+	}
+	/**获取update接口的地址
+	 */
+	public String getUpdateServeUrl() {
+		if(RELEASE)
+			return context.getResources().getString(R.string.formal_update_url);
+		else return context.getResources().getString(R.string.test_update_url);
 	}
 }

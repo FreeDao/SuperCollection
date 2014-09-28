@@ -23,6 +23,7 @@ public class ActivityOrderDetail extends Activity {
 			time2_name_tv;
 	private Context context;
 	private RelativeLayout state_detail_rl;
+	private View bottom_line1,bottom_line2;
 	private Record record;
 
 	@SuppressLint("NewApi")
@@ -46,6 +47,8 @@ public class ActivityOrderDetail extends Activity {
 		time2_tv = (TextView) findViewById(R.id.time2_tv);
 		time1_name_tv = (TextView) findViewById(R.id.time1_name_tv);
 		time2_name_tv = (TextView) findViewById(R.id.time2_name_tv);
+		bottom_line1= findViewById(R.id.bottom_line1);
+		bottom_line2= findViewById(R.id.bottom_line2);
 
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
@@ -99,6 +102,9 @@ public class ActivityOrderDetail extends Activity {
 			time2_name_tv.setText("付款成功");
 			dangqianzhuangtai_tv.setTextColor(getResources().getColor(
 					R.color.blue));
+			state_detail_rl.setVisibility(View.GONE);
+			bottom_line1.setVisibility(View.GONE);
+			bottom_line2.setVisibility(View.GONE);
 		} else if (state.equals(StateEnum.yishoukuan.getString())) {
 			time1_tv.setText(record.getSt().replace("null", ""));
 			time1_name_tv.setText("到账时间");

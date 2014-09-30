@@ -14,6 +14,8 @@ public enum SPkeys {
 	siteid("siteid"),//系统id
 	autoLogin("autoLogin"),
 	loginState("loginState"),
+	lastusername("lastusername"),//记录登录时用的用户名密码
+	lastpassword("lastpassword"),
 	;
 
 	private String key;

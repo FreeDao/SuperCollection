@@ -284,6 +284,7 @@
                 android:background="@color/line_color" />
 
             <RelativeLayout
+                android:id="@+id/time2_rl"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/list_item_color_bg"

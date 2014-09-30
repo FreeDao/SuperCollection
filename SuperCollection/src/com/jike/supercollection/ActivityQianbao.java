@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -24,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +70,7 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 	private Drawable selectedDrawable, unselectedDrawable;
 	Context context;
 	private CustomProgressDialog progressdialog;
-	private String recordReturnJson="";
+	private String recordReturnJson="",loginReturnJson="";
 	private ArrayList<Record> records_list;
 	ListAdapter adapter;
 	Boolean isTimeout=true;
@@ -84,8 +87,15 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 				
 			}
 		});
+		sartQueryUserInfo();
 	}
 	
+	@Override
+	protected void onResume() {
+		sartQueryUserInfo();
+		super.onResume();
+	}
+
 	private void initView() {
 		context=this;
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
@@ -213,9 +223,10 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 				String userid=sp.getString(SPkeys.userid.getString(), "");
 				String siteid=sp.getString(SPkeys.siteid.getString(), "");
 				//amount + time + realamount + userid + "_superpay";
-				String sign=CommonFunc.MD5(shoukuanjine_et.getText().toString().trim() +time+realamount+ userid + "_superpay");
+				String sign=CommonFunc.MD5(shoukuanjine_et.getText().toString().trim() +time+String.format("%.2f",realamount)+ userid + "_superpay");
 				MyApp ma = new MyApp(context);
-				String url=String.format(ma.getPayServeUrl(), shoukuanjine_et.getText().toString().trim(),time,realamount,userid,siteid,sign);
+				String url=String.format(ma.getPayServeUrl(), shoukuanjine_et.getText().toString().trim(),time,String.format("%.2f",realamount),userid,siteid,sign);
+				url+="&r="+(int)(Math.random()*1000);
 				Intent intent=new Intent(context,Activity_Web_Pay.class);
 				intent.putExtra(Activity_Web_Pay.URL, url);
 				intent.putExtra(Activity_Web_Pay.TITLE, "无卡收款");
@@ -272,13 +283,39 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 
 		progressdialog = CustomProgressDialog.createDialog(context);
 		progressdialog.setMessage("正在查询交易信息，请稍候...");
-		progressdialog.setCancelable(false);
+		progressdialog.setCancelable(true);
 		progressdialog.setOnCancelListener(new OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialog) {
 			}
 		});
 		progressdialog.show();
+	}
+	
+	private void sartQueryUserInfo(){
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				MyApp ma = new MyApp(context);
+				String str = "{\"username\":\""
+						+sp.getString(SPkeys.lastusername.getString(),"")
+						+ "\",pwd:\""
+						+ sp.getString(SPkeys.lastpassword.getString(),"")+"\"}";
+				String param = "action=suppaylogin&sitekey=&userkey="
+						+ MyApp.userkey
+						+ "&str="
+						+ str
+						+ "&sign="
+						+ CommonFunc.MD5(MyApp.userkey + "suppaylogin"
+								+ str);
+				loginReturnJson = HttpUtils.getJsonContent(
+						ma.getServeUrl(), param);
+				Log.v("loginReturnJson", loginReturnJson);
+				Message msg = new Message();
+				msg.what = 3;
+				handler.sendMessage(msg);
+			}
+		}).start();
 	}
 	
 	private Handler handler = new Handler() {
@@ -337,10 +374,44 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 				}
 				progressdialog.dismiss();
 				break;
+			case 3:// 获取登录返回的数据
+				jsonParser = new JSONTokener(loginReturnJson);
+				try {
+					JSONObject jsonObject = (JSONObject) jsonParser.nextValue();
+					String state = jsonObject.getString("c");
+
+					if (state.equals("0000")) {
+						String content = jsonObject.getString("d");
+
+						// 以下代码将用户信息反序列化到SharedPreferences中
+						UserInfo user = JSONHelper.parseObject(content,UserInfo.class);
+						sp.edit().putString(SPkeys.userid.getString(),user.getUserid()).commit();
+						sp.edit().putString(SPkeys.username.getString(),user.getUsername()).commit();
+						sp.edit().putString(SPkeys.amount.getString(),user.getAmount()).commit();
+						sp.edit().putString(SPkeys.siteid.getString(),user.getSiteid()).commit();
+						sp.edit().putString(SPkeys.mobile.getString(),user.getMobile()).commit();
+						sp.edit().putString(SPkeys.unavailableamount.getString(),user.getUnavailableamount()).commit();
+						
+						dangqianyue_tv.setText("￥"+user.getAmount()!=null?user.getAmount():"0");
+					} else if(state.equals("1003")){
+						new AlertDialog.Builder(context).setTitle("用户名密码已更改，请重新登录")
+								.setPositiveButton("确认", null).show();
+						sp.edit().putString(SPkeys.userid.getString(),"").commit();
+						sp.edit().putString(SPkeys.username.getString(),"").commit();
+						sp.edit().putBoolean(SPkeys.loginState.getString(), false).commit();
+						sp.edit().putString(SPkeys.lastusername.getString(),"").commit();
+						sp.edit().putBoolean(SPkeys.lastpassword.getString(), false).commit();
+						startActivity(new Intent(context,ActivityLogin.class));
+						ActivityQianbao.this.finish();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				break;
 			}
 		}
-
 	};
+	
 	/**
 	 * 构建list对象
 	 * 

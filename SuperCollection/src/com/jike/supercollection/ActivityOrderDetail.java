@@ -22,7 +22,7 @@ public class ActivityOrderDetail extends Activity {
 			daozhangleixing_tv, time1_tv, time2_tv, time1_name_tv,
 			time2_name_tv;
 	private Context context;
-	private RelativeLayout state_detail_rl;
+	private RelativeLayout state_detail_rl,time2_rl;
 	private View bottom_line1,bottom_line2;
 	private Record record;
 
@@ -33,6 +33,7 @@ public class ActivityOrderDetail extends Activity {
 		setContentView(R.layout.activity_orderdetail);
 
 		context = this;
+		time2_rl=(RelativeLayout) findViewById(R.id.time2_rl);
 		back_imgbtn = (ImageButton) findViewById(R.id.back_imgbtn);
 		finish_iv = (ImageView) findViewById(R.id.finish_iv);
 		state_detail_rl = (RelativeLayout) findViewById(R.id.state_detail_rl);
@@ -96,10 +97,9 @@ public class ActivityOrderDetail extends Activity {
 						+ (bankCard.length() > 4 ? (bankCard.substring(
 								bankCard.length() - 4, bankCard.length())) : ""));
 		if (state.equals(StateEnum.neworder.getString())) {
-			time1_tv.setText(record.getSt().replace("null", ""));
-			time1_name_tv.setText("到账时间");
-			time2_tv.setText(record.getPt().replace("null", ""));
-			time2_name_tv.setText("付款成功");
+			time1_tv.setText(record.getCt().replace("null", ""));
+			time1_name_tv.setText("创单时间");
+			time2_rl.setVisibility(View.GONE);
 			dangqianzhuangtai_tv.setTextColor(getResources().getColor(
 					R.color.blue));
 			state_detail_rl.setVisibility(View.GONE);
@@ -114,16 +114,16 @@ public class ActivityOrderDetail extends Activity {
 					R.color.blue));
 		} else if (state.equals(StateEnum.ruzhangzhong.getString())) {
 			time1_tv.setText(record.getSt().replace("null", ""));
-			time1_name_tv.setText("到账时间");
-			time2_tv.setText(record.getSr());
-			time2_name_tv.setText("入账时间");
+			time1_name_tv.setText("预计到账");
+			time2_tv.setText(record.getRst());
+			time2_name_tv.setText("收款时间");
 			dangqianzhuangtai_tv.setTextColor(getResources().getColor(
 					R.color.green));
 		} else if (state.equals(StateEnum.yiwancheng.getString())) {
-			time1_tv.setText(record.getSt().replace("null", ""));
-			time1_name_tv.setText("到账时间");
-			time2_tv.setText(record.getSr());
-			time2_name_tv.setText("入账时间");
+			time1_tv.setText(record.getPt().replace("null", ""));
+			time1_name_tv.setText("收款时间");
+			time2_tv.setText(record.getRst());
+			time2_name_tv.setText("到账时间");
 			finish_iv.setVisibility(View.VISIBLE);
 			dangqianzhuangtai_tv.setTextColor(getResources().getColor(
 					R.color.red));
@@ -136,5 +136,4 @@ public class ActivityOrderDetail extends Activity {
 					R.color.red));
 		}
 	}
-
 }

@@ -22,10 +22,13 @@ public class MyApp {
 	/**打包不同程序时更改此处
 	 * 此类中只需更改以下三个值：RELEASE、hm、platform
 	 */
-	public static boolean RELEASE = false;//测试  or 发布，接口
+	public static boolean RELEASE = true;//测试  or 发布，接口
 	private HashMap<String,Object> hm=self_hm;
 	
-	public static String userkey="5b13658a9fc945e34893f806027d467a";//5b13658a9fc945e34893f806027d467a有效期到2014.09.10
+	/*正式 ffdd14d2e6c26b70749c8b2c08067c69
+	 *测试 5b13658a9fc945e34893f806027d467a
+	 * */
+	public static String userkey="ffdd14d2e6c26b70749c8b2c08067c69";
 	public static String sitekey="";
 	
 	public MyApp(Context context){

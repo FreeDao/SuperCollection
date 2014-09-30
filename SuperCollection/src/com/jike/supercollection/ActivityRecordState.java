@@ -67,7 +67,7 @@ public class ActivityRecordState extends Activity {
 		else if (state.equals(StateEnum.ruzhangzhong.getString())) {
 			time1_tv.setText("预计 "+record.getSt().replace("null", ""));
 			time1_name_tv.setText("到账");
-			time2_tv.setText(record.getSr());
+			time2_tv.setText(record.getSt());
 			time2_name_tv.setText("入账中");
 			time3_tv.setText(record.getRst());
 			time3_name_tv.setText("已收款");
@@ -77,12 +77,12 @@ public class ActivityRecordState extends Activity {
 			time2_name_tv.setTextColor(getResources().getColor(R.color.login_text_color));
 		}
 		else if (state.equals(StateEnum.yiwancheng.getString())) {
-			time1_tv.setText(record.getSt().replace("null", ""));
+			time3_tv.setText(record.getCt().replace("null", ""));
+			time3_name_tv.setText("创单");
+			time2_tv.setText(record.getPt());
+			time2_name_tv.setText("已收款");
+			time1_tv.setText(record.getRst());
 			time1_name_tv.setText("已到账");
-			time2_tv.setText(record.getSr());
-			time2_name_tv.setText("入账");
-			time3_tv.setText(record.getRst());
-			time3_name_tv.setText("已收款");
 			state_iv.setBackground(getResources().getDrawable(R.drawable.slqb_daozhangzhuangtai_bg1));
 		}else if (state.equals(StateEnum.yiquxiao.getString())) {
 			time1_tv.setText("");

@@ -62,6 +62,7 @@ public class ActivityLogin extends Activity {
 		autologin_checkbox_iv=(ImageView) findViewById(R.id.autologin_checkbox_iv);
 		login_btn.setOnClickListener(loginClickListener);
 		autologin_rl.setOnClickListener(autologinClickListener);
+		uername_input_et.setText(sp.getString(SPkeys.lastusername.getString(), ""));
 	}
 	
 	@Override
@@ -117,7 +118,7 @@ public class ActivityLogin extends Activity {
 			}).start();
 			progressdialog = CustomProgressDialog.createDialog(context);
 			progressdialog.setMessage("正在登录，请稍候...");
-			progressdialog.setCancelable(false);
+			progressdialog.setCancelable(true);
 			progressdialog.show();
 		}
 	};
@@ -158,14 +159,16 @@ public class ActivityLogin extends Activity {
 						sp.edit()
 								.putBoolean(SPkeys.autoLogin.getString(), auto)
 								.commit();
-
 						// 以下代码将用户信息反序列化到SharedPreferences中
 						UserInfo user = JSONHelper.parseObject(content,UserInfo.class);
+						sp.edit().putString(SPkeys.lastusername.getString(),uername_input_et.getText().toString().trim()).commit();
+						sp.edit().putString(SPkeys.lastpassword.getString(),password_input_et.getText().toString().trim()).commit();
 						sp.edit().putString(SPkeys.userid.getString(),user.getUserid()).commit();
 						sp.edit().putString(SPkeys.username.getString(),user.getUsername()).commit();
 						sp.edit().putString(SPkeys.amount.getString(),user.getAmount()).commit();
 						sp.edit().putString(SPkeys.siteid.getString(),user.getSiteid()).commit();
 						sp.edit().putString(SPkeys.mobile.getString(),user.getMobile()).commit();
+						sp.edit().putString(SPkeys.unavailableamount.getString(),user.getUnavailableamount()).commit();
 						//其他信息以后用时再增加
 						// 登录后将登录状态置为true
 						sp.edit().putBoolean(SPkeys.loginState.getString(), true)
@@ -173,9 +176,7 @@ public class ActivityLogin extends Activity {
 						startActivity(new Intent(context,ActivityQianbao.class));
 						ActivityLogin.this.finish();
 					} else {
-						String message = jsonObject.getString("msg");
 						new AlertDialog.Builder(context).setTitle("登录失败")
-								.setMessage(message)
 								.setPositiveButton("确认", null).show();
 					}
 				} catch (JSONException e) {

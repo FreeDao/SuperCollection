@@ -3,6 +3,7 @@ package com.jike.supercollection;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class Activity_Web_Pay extends Activity {
@@ -22,6 +25,8 @@ public class Activity_Web_Pay extends Activity {
 	private ImageButton back;
 	private TextView chongzhi_finish;
 	private WebView webView_zhifu;
+	private LinearLayout loading_ll;
+	private ImageView frame_ani_iv;
 
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
@@ -43,7 +48,9 @@ public class Activity_Web_Pay extends Activity {
 				finish();
 			}
 		});
-
+		
+		loading_ll=(LinearLayout) findViewById(R.id.loading_ll);
+		frame_ani_iv=(ImageView) findViewById(R.id.frame_ani_iv);
 		webView_zhifu = new WebView(this);
 		webView_zhifu = (WebView) findViewById(R.id.webView_zhifu);
 		WebSettings webSettings = webView_zhifu.getSettings();
@@ -62,10 +69,27 @@ public class Activity_Web_Pay extends Activity {
 				view.loadUrl(url);
 				return true;
 			}
+		    @Override
+            public void onPageFinished(WebView view, String url) 
+            {
+		    	super.onPageFinished(view, url);
+		    	loading_ll.setVisibility(View.GONE);
+		    	webView_zhifu.setVisibility(View.VISIBLE);
+            }
 		});
 		webView_zhifu.loadUrl(url);
 	}
-
+	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus)  {
+		loading_ll.setVisibility(View.VISIBLE);
+		frame_ani_iv.setBackgroundResource(R.anim.frame_rotate_ani);
+		AnimationDrawable anim = (AnimationDrawable) frame_ani_iv
+				.getBackground();
+		anim.setOneShot(false);
+		anim.start();
+	}
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 

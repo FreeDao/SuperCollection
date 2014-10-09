@@ -1,6 +1,7 @@
 package com.jike.supercollection;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -13,19 +14,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import com.jike.supercollection.update.UpdateManager;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,6 +47,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jike.supercollection.update.UpdateManager;
 
 @SuppressLint("NewApi")
 public class ActivityQianbao extends Activity  implements
@@ -81,6 +79,7 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_qianbao);
 		initView();
+		((MyApplication)getApplication()).addActivity(this);
 		((ImageButton)findViewById(R.id.user_imgbtn)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -177,11 +176,11 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 				jyjl_iv.setBackground(getResources().getDrawable(R.drawable.slqb_jilu_gray_btn));
 				break;
 			case R.id.jiaoyijilu_ll:
+				startQueryRecord();
 				jiaoyijilu_block_ll.setVisibility(View.VISIBLE);
 				shoukuan_block_ll.setVisibility(View.GONE);
 				sk_iv.setBackground(getResources().getDrawable(R.drawable.slqb_shoukuan_gray_btn));
 				jyjl_iv.setBackground(getResources().getDrawable(R.drawable.slqb_jilu_blue_btn));
-				startQueryRecord();
 				break;
 			case R.id.T0_rl:
 			case R.id.T0_select_imgbtn:
@@ -204,7 +203,7 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 			case R.id.T6_rl:
 			case R.id.T6_select_imgbtn:
 				rate=0f;
-				time=0;
+				time=6;
 				T6_select_imgbtn.setBackground(selectedDrawable);
 				T3_select_imgbtn.setBackground(unselectedDrawable);
 				T0_select_imgbtn.setBackground(unselectedDrawable);
@@ -237,7 +236,17 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 			}
 		}
 	};
-	
+	Comparator<Record> comparator_time = new Comparator<Record>() {
+		@Override
+		public int compare(Record s1, Record s2) {
+			if (s1.getPt()!=null&&s2.getPt()!=null&&!s1.getPt().equals(s2.getPt())) {
+				return s2.getPt().compareTo(s1.getPt());
+			} else if (s1.getCt()!=null&&s2.getCt()!=null&&!s1.getCt().equals(s2.getCt())) {
+				return s2.getCt().compareTo(s1.getCt());
+			}else			
+				return 0;
+		}
+	};
 	private void setShouxufei(){
 		java.text.DecimalFormat df = new java.text.DecimalFormat("#.##");
 		String amoutString=shoukuanjine_et.getText().toString().trim();
@@ -438,6 +447,7 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 		public ListAdapter(Context context, List<Record> list1) {
 			this.inflater = LayoutInflater.from(context);
 			this.recordList = list1;
+			Collections.sort(recordList, comparator_time);
 		}
 
 		@Override
@@ -641,6 +651,7 @@ RefreshListView.IOnRefreshListener, RefreshListView.IOnLoadMoreListener{
 					Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
 					mExitTime = System.currentTimeMillis();
 				} else {
+					 ((MyApplication)getApplication()).exit();
 					  android.os.Process.killProcess(android.os.Process.myPid());
 					  finish();
 					  System.exit(0); 

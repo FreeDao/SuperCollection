@@ -43,7 +43,7 @@ public class ActivityMyAccout extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_myaccount);
-
+		((MyApplication)getApplication()).addActivity(this);
 		context=this;
 		frame_ani_iv=(ImageView)findViewById(R.id.frame_ani_iv);
 		loading_ll=(LinearLayout) findViewById(R.id.loading_ll);

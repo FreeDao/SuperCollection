@@ -43,7 +43,7 @@ public class ActivityLogin extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
+		((MyApplication)getApplication()).addActivity(this);
 		context=this;
 		sp = getSharedPreferences(SPkeys.SPNAME.getString(), 0);
 		auto = sp.getBoolean(SPkeys.autoLogin.getString(), true);

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- http://dn-rocky.qbox.me/shanglvguanjiaversion.xml -->
      <string name="test_update_url">http://gatewayceshi.51jp.cn/version.xml</string>
 	 <string name="formal_update_url">http://gatewayv3.51jp.cn/version.xml</string>
  

@@ -1,6 +1,7 @@
 package com.jike.supercollection;
 
 import org.json.JSONException;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ public class ActivityRecordState extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_state_detail);
-		
+		((MyApplication)getApplication()).addActivity(this);
 		((ImageButton)findViewById(R.id.back_imgbtn)).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

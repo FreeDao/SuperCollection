@@ -1,6 +1,7 @@
 package com.jike.supercollection;
 
 import org.json.JSONException;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -31,7 +32,7 @@ public class ActivityOrderDetail extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_orderdetail);
-
+		((MyApplication)getApplication()).addActivity(this);
 		context = this;
 		time2_rl=(RelativeLayout) findViewById(R.id.time2_rl);
 		back_imgbtn = (ImageButton) findViewById(R.id.back_imgbtn);
